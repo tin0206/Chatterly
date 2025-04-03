@@ -1,6 +1,6 @@
 "use client";
 
-import { BellIcon, HomeIcon, LogOutIcon, MenuIcon, MoonIcon, SunIcon, UserIcon, } from "lucide-react"
+import { BellIcon, HomeIcon, LogOutIcon, MenuIcon, MessageCircleMoreIcon, MoonIcon, SunIcon, UserIcon, } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { useState } from "react"
@@ -92,6 +92,23 @@ function MobileNavbar({ username, email }: MobileNavbarProps) {
                   >
                     <UserIcon className="w-4 h-4" />
                     Profile
+                  </Link>
+                </Button>
+                <Button variant="ghost" className="flex items-center gap-3 justify-start" asChild>
+                  <Link 
+                    href={`/messages/${
+                      username ?? email?.split("@")[0]
+                    }`}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setTimeout(() => {
+                        setShowMobileMenu(false)
+                        router.push(`/messages/${username ?? email?.split("@")[0]}`)
+                      }, 100)
+                    }}
+                  >
+                    <MessageCircleMoreIcon className="w-4 h-4" />
+                    Messages
                   </Link>
                 </Button>
                 <SignOutButton>

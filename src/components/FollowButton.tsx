@@ -26,7 +26,7 @@ export default function FollowButton({userId}: {userId: string}) {
             variant={"secondary"}
             onClick={handleFollow}
             disabled={isLoading}
-            className="w-20"
+            className="w-20 cursor-pointer"
         >
             {isLoading ? <Loader2Icon className="size-4 animate-spin" /> : "Follow"}
         </Button>

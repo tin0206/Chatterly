@@ -14,64 +14,66 @@ datasource db {
 }
 
 model User {
-  id String @id @default(cuid()) @map("_id")
-  email String @unique
-  username String @unique
-  clerkId String @unique
-  name String?
-  bio String?
-  image String?
-  location String?
-  website String?
+  id        String   @id @default(cuid()) @map("_id")
+  email     String   @unique
+  username  String   @unique
+  clerkId   String   @unique
+  name      String?
+  bio       String?
+  image     String?
+  location  String?
+  website   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Relations
-  posts Post[]
-  comments Comment[]
-  likes Like[]
-  
+  posts            Post[]
+  comments         Comment[]
+  likes            Like[]
+  messagesSent     Message[] @relation("sentMessages")
+  messagesReceived Message[] @relation("receivedMessages")
+
   followers Follows[] @relation("following") // Users that are following this user
   following Follows[] @relation("followers") // Users that this user is following
 
-  notifications Notification[] @relation("userNotifications") // Notifications that the user has received
+  notifications        Notification[] @relation("userNotifications") // Notifications that the user has received
   notificationsCreated Notification[] @relation("notificationCreator") // Notifications that the user has created
 }
 
 model Post {
-  id String @id @default(cuid()) @map("_id")
-  authorId String
-  content String?
-  image String?
+  id        String   @id @default(cuid()) @map("_id")
+  authorId  String
+  content   String?
+  image     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Relations
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  comments Comment[]
-  likes Like[]
+  author        User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  comments      Comment[]
+  likes         Like[]
   notifications Notification[]
 }
 
 model Comment {
-  id String @id @default(cuid()) @map("_id")
-  content String
-  authorId String
-  postId String
+  id        String   @id @default(cuid()) @map("_id")
+  content   String
+  authorId  String
+  postId    String
   createdAt DateTime @default(now())
 
   // Relations
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  author        User           @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  post          Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
   notifications Notification[]
 
   @@index([authorId, postId])
 }
 
 model Like {
-  id String @id @default(cuid()) @map("_id")
-  postId String
-  userId String
+  id        String   @id @default(cuid()) @map("_id")
+  postId    String
+  userId    String
   createdAt DateTime @default(now())
 
   // Relations
@@ -82,32 +84,49 @@ model Like {
 }
 
 model Follows {
-  id String @id @map("_id")
-  followerId String
+  id          String   @id @map("_id")
+  followerId  String
   followingId String
-  createdAt DateTime @default(now())
+  createdAt   DateTime @default(now())
 
   // Relations
-  follower User @relation("followers", fields: [followerId], references: [id], onDelete: Cascade)
+  follower  User @relation("followers", fields: [followerId], references: [id], onDelete: Cascade)
   following User @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
 
   @@index([followerId, followingId])
 }
 
-model Notification {
-  id String @id @default(cuid()) @map("_id")
-  userId String
-  creatorId String
-  type NotificationType
-  read Boolean @default(false)
-  postId String?
-  commentId String?
-  createdAt DateTime @default(now())
+model Message {
+  id         String   @id @map("_id")
+  senderId   String
+  receiverId String
+  content    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  delivered  Boolean  @default(false)
+  read       Boolean  @default(false)
 
   // Relations
-  user User @relation("userNotifications", fields: [userId], references: [id], onDelete: Cascade)
-  creator User @relation("notificationCreator", fields: [creatorId], references: [id], onDelete: Cascade)
-  post Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+  sender   User @relation("sentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver User @relation("receivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@index([senderId, receiverId])
+}
+
+model Notification {
+  id        String           @id @default(cuid()) @map("_id")
+  userId    String
+  creatorId String
+  type      NotificationType
+  read      Boolean          @default(false)
+  postId    String?
+  commentId String?
+  createdAt DateTime         @default(now())
+
+  // Relations
+  user    User     @relation("userNotifications", fields: [userId], references: [id], onDelete: Cascade)
+  creator User     @relation("notificationCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  post    Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
   comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
 
   @@index([userId, creatorId])
