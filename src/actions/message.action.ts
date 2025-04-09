@@ -67,3 +67,50 @@ export async function createMessage(content: string, senderId: string, receiverI
         return { success: false, error: "Failed to create message" }
     }
 }
+
+export async function getConversation(userId: string, friendId: string) {
+    try {
+        const conversation = await prisma.message.findMany({
+            where: {
+                OR: [
+                    {
+                        senderId: userId,
+                        receiverId: friendId,
+                    },
+                    {
+                        senderId: friendId,
+                        receiverId: userId,
+                    }
+                ]
+            },
+            select: {
+                content: true,
+                createdAt: true,
+                sender: {
+                    select: {
+                        id: true,
+                        name: true,
+                        username: true,
+                        image: true,
+                    }
+                },
+                receiver: {
+                    select: {
+                        id: true,
+                        name: true,
+                        username: true,
+                        image: true,
+                    }
+                }
+            },
+            orderBy: {
+                createdAt: "asc"
+            }
+        })
+
+        return conversation
+    } catch (error) {
+        console.error("Error fetching conversation:", error)
+        throw new Error("Failed to fetch conversation")
+    }
+}

@@ -9,12 +9,11 @@ type User = Awaited<ReturnType<typeof getProfileByUsername>>
 interface MessagePageClientProps {
     user: NonNullable<User>
     contactedFriend: User | undefined
-    setIsSendingMessage: (isSending: boolean) => void
 }
 
-function InputMessage({ user, contactedFriend, setIsSendingMessage }: MessagePageClientProps) {
+function InputMessage({ user, contactedFriend }: MessagePageClientProps) {
     const [currentText, setCurrentText] = useState("")
-    const [isTransferring, setIsTransferring] = useState(false)
+    const [isSendingMessage, setIsSendingMessage] = useState(false)
 
     const handleSubmitMessage = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -22,7 +21,6 @@ function InputMessage({ user, contactedFriend, setIsSendingMessage }: MessagePag
         const receiverId = contactedFriend?.id || ""
         if (!receiverId) return
         setIsSendingMessage(true)
-        setIsTransferring(true)
         try {
             const result = await createMessage(currentText, user.id, receiverId)
             if (result?.success) {
@@ -32,7 +30,6 @@ function InputMessage({ user, contactedFriend, setIsSendingMessage }: MessagePag
             console.error("Failed to send message", error)
         } finally {
             setIsSendingMessage(false)
-            setIsTransferring(false)
             setCurrentText("")
         }
     }
@@ -48,11 +45,12 @@ function InputMessage({ user, contactedFriend, setIsSendingMessage }: MessagePag
                 onChange={
                     (e) =>setCurrentText(e.target.value)
                 }
+                value={currentText}
             />
             <button 
                 className="flex size-[40] rounded-full justify-center items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-400"
                 type="submit"
-                disabled={currentText.trim() === "" || isTransferring}
+                disabled={currentText.trim() === "" || isSendingMessage}
             >
                 <SendIcon />
             </button>

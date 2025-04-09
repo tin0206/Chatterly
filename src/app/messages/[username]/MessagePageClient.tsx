@@ -2,6 +2,7 @@
 
 import { getFriendsList } from "@/actions/message.action"
 import { getProfileByUsername } from "@/actions/profile.action"
+import ChatBody from "@/components/ChatBody"
 import InputMessage from "@/components/InputMessage"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -26,7 +27,6 @@ function MessagePageClient({user, friendList} : MessagePageClientProps) {
     const [friend, setFriend] = useState("")
     const [showSendMessageDialog, setShowSendMessageDialog] = useState(false)
     const [contactList, setContactList] = useState<any>([])
-    const [isSendingMessage, setIsSendingMessage] = useState(false)
 
     useEffect(() => {
         const fetchContactList = async () => {
@@ -139,25 +139,10 @@ function MessagePageClient({user, friendList} : MessagePageClientProps) {
                                 <div>
                                     <div className="h-[20]"></div>
                                     <div className="flex-1 h-[calc(100vh-16.7rem)] overflow-y-auto">
-                                        <div className="flex flex-col justify-center items-center">
-                                            <img className="size-[92] rounded-full" src={contactedFriend?.image ?? "/avatar.png"} alt="" />
-                                            <div className="text-[18px] font-[600px] pt-[12]">{contactedFriend?.username}</div>
-                                            <div className="pt-[12]">
-                                                <span className="text-[16px] font-[400px] text-muted-foreground">
-                                                    Instagram
-                                                </span>
-                                            </div>
-                                            <div className="py-[24]">
-                                                <Link href={`/profile/${contactedFriend?.username}`}>
-                                                    <Button className="cursor-pointer bg-gray-200 hover:bg-gray-300" variant="outline">
-                                                        View profile
-                                                    </Button>
-                                                </Link>
-                                            </div>
-                                        </div>
+                                        <ChatBody userId={user.id} contactedFriend={contactedFriend} />
                                     </div>
                                 </div>
-                                <InputMessage user={user} contactedFriend={contactedFriend} setIsSendingMessage={setIsSendingMessage} />              
+                                <InputMessage user={user} contactedFriend={contactedFriend} />              
                             </>
                         )
                     }
