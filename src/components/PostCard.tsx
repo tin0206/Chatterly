@@ -159,12 +159,16 @@ function PostCard({ post, dbUserId } : { post: Post; dbUserId: string | null }) 
                             {/** DISPLAY COMMENTS */}
                             {post.comments.map(comment => (
                                 <div key={comment.id} className='flex space-x-3'>
-                                    <Avatar className='size-8 flex-shrink-0'>
-                                        <AvatarImage src={comment.author.image ?? "/avatar.png"} />
-                                    </Avatar>
+                                    <Link href={`/profile/${comment.author.username}`} target='_blank' className='hover:opacity-80'>
+                                        <Avatar className='size-8 flex-shrink-0'>
+                                            <AvatarImage src={comment.author.image ?? "/avatar.png"} />
+                                        </Avatar>
+                                    </Link>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                                            <span className="font-medium text-sm">{comment.author.name}</span>
+                                            <Link href={`/profile/${comment.author.username}`} target='_blank' className='hover:underline'>
+                                                <span className="font-medium text-sm">{comment.author.name}</span>
+                                            </Link>
                                             <span className="text-sm text-muted-foreground">
                                                 @{comment.author.username}
                                             </span>

@@ -290,14 +290,16 @@ function ProfilePageClient({user, posts, likedPosts, isFollowing: initialFollowi
                             <FileTextIcon className="size-4" />
                             Posts
                         </TabsTrigger>
-                        <TabsTrigger
-                            value="likes"
-                            className="flex items-center gap-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary
-                            data-[state=active]:bg-transparent px-6 font-semibold  cursor-pointer"
-                        >
-                            <HeartIcon className="size-4" />
-                            Likes
-                        </TabsTrigger>
+                        {isOwnProfile && (
+                            <TabsTrigger
+                                value="likes"
+                                className="flex items-center gap-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary
+                                data-[state=active]:bg-transparent px-6 font-semibold  cursor-pointer"
+                            >
+                                <HeartIcon className="size-4" />
+                                Likes
+                            </TabsTrigger>
+                        )}
                     </TabsList>
 
                     <TabsContent value="posts" className="mt-6">
