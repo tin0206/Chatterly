@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:socket": "set NODE_OPTIONS=--loader ts-node/esm --trace-warnings && ts-node server.mts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -30,7 +31,10 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
     "tailwind-merge": "^3.0.2",
+    "ts-node": "^10.9.2",
     "tw-animate-css": "^1.2.4",
     "uploadthing": "^7.6.0"
   },

@@ -26,6 +26,12 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
         }
 
         const fetchConversation = async () => {
+            if (!contactedFriend?.id) {
+                setConversation([])
+                setIsLoading(false)
+                return
+            }
+
             try {
                 const data = await getConversation(userId, contactedFriend?.id as string)
                 setConversation(data)
@@ -41,6 +47,10 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
         }
         if (contactedFriend?.id) {
             fetchConversation()
+        }
+        return () => {
+            setConversation([])
+            setIsLoading(false)
         }
         
     }, [userId, contactedFriend?.id])
@@ -65,14 +75,16 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
             ) : (
                 <>
                     <div className="flex flex-col justify-center items-center">
-                        <img className="size-[92] rounded-full" src={contactedFriend?.image ?? "/avatar.png"} alt="" />
-                        <div className="text-[18px] font-[600px] pt-[12]">{contactedFriend?.username}</div>
-                        <div className="pt-[12]">
+                        <div className='size-[90px]'>
+                            <img className="rounded-full" src={contactedFriend?.image ?? "/avatar.png"} alt="" />
+                        </div>
+                        <div className="text-[18px] font-[600px] pt-[12px]">{contactedFriend?.username}</div>
+                        <div className="pt-[12px]">
                             <span className="text-[16px] font-[400px] text-muted-foreground">
                                 Instagram
                             </span>
                         </div>
-                        <div className="py-[24]">
+                        <div className="py-[24px]">
                             <Link href={`/profile/${contactedFriend?.username}`}>
                                 <Button className="cursor-pointer bg-gray-200 hover:bg-gray-300" variant="outline">
                                     View profile
@@ -82,17 +94,19 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
                     </div>
                     <div>
                         {conversation.map((message: any, index: number) => (
-                            <div key={index} className='w-full flex mb-2'>
+                            <div key={index} className={`w-full flex ${checkDisplayImg(index) ? "mb-4" : "mb-2"}`}>
                                 {message.sender.id !== userId && (
                                     <div className='flex items-end'>
-                                        <div className='w-[50] h-[28] pl-[14] pr-[8]'>
+                                        <div className='w-[50px] h-[28px] pl-[14px] pr-[8px]'>
                                             {checkDisplayImg(index) && (
                                                 <Link href={`/profile/${message.sender.username}`}>
-                                                    <img
-                                                        src={message.sender.image}
-                                                        className="size-[28px] rounded-full"
-                                                        alt=""
-                                                    />
+                                                    <div className='size-[28px]'>
+                                                        <img
+                                                            src={message.sender.image}
+                                                            className="rounded-full"
+                                                            alt=""
+                                                        />
+                                                    </div>
                                                 </Link>
                                             )}
                                         </div>

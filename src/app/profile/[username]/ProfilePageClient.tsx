@@ -394,7 +394,7 @@ function ProfilePageClient({user, posts, likedPosts, isFollowing: initialFollowi
                         setFollowersSearchInput("")
                     }}
                 >
-                    <DialogContent className="size-[440] flex flex-col overflow-hidden">
+                    <DialogContent className="size-[440px] flex flex-col overflow-hidden">
                         <DialogHeader className="border-b h-8 px-4">
                             <DialogTitle className="text-center">Follower</DialogTitle>                            
                         </DialogHeader>
@@ -409,7 +409,7 @@ function ProfilePageClient({user, posts, likedPosts, isFollowing: initialFollowi
                             ) : (
                                 followers.map((follower: any, index: number) => (
                                     <div key={index} className="justify-between flex">
-                                        <div className="flex items-center space-x-4 w-[353] h-[50]">
+                                        <div className="flex items-center space-x-4 w-[353px] h-[50px]">
                                             <Link 
                                                 href={`/profile/${follower?.follower.username ?? follower?.follower.email.split("@")[0]}`}
                                                 target="_blank"
@@ -427,11 +427,11 @@ function ProfilePageClient({user, posts, likedPosts, isFollowing: initialFollowi
                                                     target="_blank"
                                                     className="cursor-pointer"
                                                 >
-                                                    <div className="font-semibold h-[18] flex flex-col hover:underline">
+                                                    <div className="font-semibold h-[18px] flex flex-col hover:underline">
                                                         <span className="text-sm">{follower?.follower.username}</span>
                                                     </div>
                                                 </Link>
-                                                <div className="text-muted-foreground h-[18] flex flex-col">
+                                                <div className="text-muted-foreground h-[18px] flex flex-col">
                                                     <span className="text-sm">{follower?.follower.name}</span>
                                                 </div>
                                             </div>
@@ -440,7 +440,7 @@ function ProfilePageClient({user, posts, likedPosts, isFollowing: initialFollowi
                                             isOwnProfile ? (
                                                 <div className="flex items-center">
                                                     <Button 
-                                                        className="w-[70] h-[32] rounded-lg cursor-pointer bg-gray-100 text-black hover:bg-gray-300"
+                                                        className="w-[70px] h-[32px] rounded-lg cursor-pointer bg-gray-100 text-black hover:bg-gray-300"
                                                         disabled={isUpdatingFollow}
                                                         onClick={() => handleDeleteFollower(follower?.follower.id)}
                                                     >
@@ -465,7 +465,7 @@ function ProfilePageClient({user, posts, likedPosts, isFollowing: initialFollowi
                         setFollowingSearchInput("")
                     }}
                 >
-                    <DialogContent className="size-[440] flex flex-col overflow-hidden">
+                    <DialogContent className="size-[440px] flex flex-col overflow-hidden">
                         <DialogHeader className="border-b h-8">
                             <DialogTitle className="text-center">Following</DialogTitle>                            
                         </DialogHeader>
@@ -480,7 +480,7 @@ function ProfilePageClient({user, posts, likedPosts, isFollowing: initialFollowi
                             ) : (
                                 following.map((item: any, index: number) => (
                                     <div key={index} className="justify-between flex">
-                                        <div className="flex items-center space-x-4 w-[353] h-[50]">
+                                        <div className="flex items-center space-x-4 w-[353px] h-[50px]">
                                             <Link
                                                 href={`/profile/${item?.following.username ?? item?.following.email.split("@")[0]}`}
                                                 target="_blank"
@@ -498,11 +498,11 @@ function ProfilePageClient({user, posts, likedPosts, isFollowing: initialFollowi
                                                     target="_blank"
                                                     className="cursor-pointer"
                                                 >
-                                                    <div className="font-semibold h-[18] flex flex-col hover:underline">
+                                                    <div className="font-semibold h-[18px] flex flex-col hover:underline">
                                                         <span className="text-sm">{item?.following.username}</span>
                                                     </div>
                                                 </Link>
-                                                <div className="text-muted-foreground h-[18] flex flex-col">
+                                                <div className="text-muted-foreground h-[18px] flex flex-col">
                                                     <span className="text-sm">{item?.following.name}</span>
                                                 </div>
                                             </div>

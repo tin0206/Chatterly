@@ -36,11 +36,11 @@ function InputMessage({ user, contactedFriend }: MessagePageClientProps) {
 
     return (
         <form 
-            className="flex justify-center items-center gap-2 m-[16] h-[44] sticky bottom-0"
+            className="flex justify-center items-center gap-2 m-[16px] h-[44px] sticky bottom-0"
             onSubmit={handleSubmitMessage}
         >
             <Input
-                className="rounded-[50]"
+                className="rounded-[50px]"
                 placeholder="Message..." 
                 onChange={
                     (e) =>setCurrentText(e.target.value)
@@ -48,7 +48,7 @@ function InputMessage({ user, contactedFriend }: MessagePageClientProps) {
                 value={currentText}
             />
             <button 
-                className="flex size-[40] rounded-full justify-center items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-400"
+                className="flex size-[40px] rounded-2xl justify-center items-center cursor-pointer hover:bg-gray-100 dark:hover:bg-neutral-400"
                 type="submit"
                 disabled={currentText.trim() === "" || isSendingMessage}
             >

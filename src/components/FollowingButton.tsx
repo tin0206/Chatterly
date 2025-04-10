@@ -47,7 +47,7 @@ function FollowingButton({ user, item,handleFollowing, isUpdatingFollow} : {
             <Button
                 className=
                 {
-                    `w-[132] h-[32] rounded-lg cursor-pointer mb-1.5
+                    `w-[132px] h-[32px] rounded-lg cursor-pointer mb-1.5
                         ${
                             isLoading ? "bg-gray-100 hover:bg-gray-300 text-black" : 
                             `${
@@ -74,27 +74,6 @@ function FollowingButton({ user, item,handleFollowing, isUpdatingFollow} : {
                     isUnfollowing={isUpdatingFollowState}
                 />
             )}
-            {/* {showConfirmation && (
-                <div className='flex gap-3 mt-2'>
-                    <div
-                        className='w-[60] text-center pt-1 pb-1 border-[1] rounded-sm cursor-pointer bg-black text-white hover:bg-gray-500'
-                        onClick={() => {
-                            setShowConfirmation(false)
-                            changeState()
-                        }}
-                    >
-                        Yes
-                    </div>
-                    <div 
-                        className='w-[60] text-center pt-1 pb-1 border-[1] rounded-sm cursor-pointer bg-black text-white hover:bg-gray-500'
-                        onClick={() => {
-                            setShowConfirmation(false)
-                        }}
-                    >
-                        No
-                    </div>
-                </div>
-            )} */}
         </div>
     )
 }
