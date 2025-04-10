@@ -16,9 +16,15 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
     const [conversation, setConversation] = useState<any[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const messagesEndRef = useRef<HTMLDivElement>(null)
+    const previousFriendIdRef = useRef<string | undefined>(undefined)
 
     useEffect(() => {
-        setIsLoading(true)
+        if (contactedFriend?.id === previousFriendIdRef.current) {
+            setConversation([])
+            setIsLoading(true)
+            previousFriendIdRef.current = contactedFriend?.id
+        }
+
         const fetchConversation = async () => {
             try {
                 const data = await getConversation(userId, contactedFriend?.id as string)
