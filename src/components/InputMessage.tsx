@@ -3,11 +3,12 @@ import { Input } from "./ui/input"
 import { useState } from "react"
 import { createMessage } from "@/actions/message.action"
 import { getProfileByUsername } from "@/actions/profile.action"
+import { socket } from "@/lib/socketClient"
 
 type User = Awaited<ReturnType<typeof getProfileByUsername>>
 
 interface MessagePageClientProps {
-    user: NonNullable<User>
+    user: string
     contactedFriend: User | undefined
 }
 
@@ -22,8 +23,13 @@ function InputMessage({ user, contactedFriend }: MessagePageClientProps) {
         if (!receiverId) return
         setIsSendingMessage(true)
         try {
-            const result = await createMessage(currentText, user.id, receiverId)
+            const result = await createMessage(currentText, user, receiverId)
             if (result?.success) {
+                // socket.emit("sendMessage", {
+                //     senderId: user.id,
+                //     receiverId: contactedFriend?.id,
+                //     message: currentText,
+                // })
                 setCurrentText("")
             }
         } catch (error) {

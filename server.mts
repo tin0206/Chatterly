@@ -15,6 +15,10 @@ app.prepare().then(() => {
     const io = new Server(httpServer)
     io.on("connection", (socket) => {
         console.log(`User connected: ${socket.id}`)
+
+        socket.on("sendMessage", ({ senderId, receiverId, message }) => {
+            console.log(`Message from ${senderId} to ${receiverId}: ${message}`)
+        })
     })
 
     httpServer.listen(port, () => {

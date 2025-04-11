@@ -47,7 +47,7 @@ export async function getUserByClerkId(clerkId: string) {
                     posts: true,
                 }
             }
-        }
+        },
     })
 }
 
@@ -59,6 +59,16 @@ export async function getDbUserId() {
 
     if(!user) throw new Error("User not found")
     return user.id
+}
+
+export async function getDbUsername() {
+    const { userId: clerkId } = await auth()
+    if (!clerkId) return null
+    
+    const user = await getUserByClerkId(clerkId)
+
+    if(!user) throw new Error("User not found")
+    return user.username
 }
 
 export async function getRandomUsers() {

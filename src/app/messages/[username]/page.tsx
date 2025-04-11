@@ -1,7 +1,7 @@
 import { getProfileByUsername } from "@/actions/profile.action"
-import MessagePageClient from "./MessagePageClient"
 import { notFound } from "next/navigation"
 import { getFriendsList } from "@/actions/message.action"
+import MessagePageClient from "./MessagePageClient"
 
 async function MessagesPage({ params } : Readonly<{ params: { username: string } }>) {
   const { username } = await params
@@ -13,10 +13,9 @@ async function MessagesPage({ params } : Readonly<{ params: { username: string }
   ])
 
   return (
-    <MessagePageClient
-      user={user}
-      friendList={friendList}
-    />
+    <>
+      <MessagePageClient username={username} friendList={friendList} />
+    </>
   )
 }
 

@@ -19,7 +19,10 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
     const previousFriendIdRef = useRef<string | undefined>(undefined)
 
     useEffect(() => {
-        if (contactedFriend?.id === previousFriendIdRef.current) {
+        setTimeout(() => {
+        }, 100)
+
+        if (contactedFriend?.id !== previousFriendIdRef.current) {
             setConversation([])
             setIsLoading(true)
             previousFriendIdRef.current = contactedFriend?.id
@@ -28,11 +31,12 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
         const fetchConversation = async () => {
             if (!contactedFriend?.id) {
                 setConversation([])
-                setIsLoading(false)
+                setIsLoading(true)
                 return
             }
 
             try {
+                setIsLoading(true)
                 const data = await getConversation(userId, contactedFriend?.id as string)
                 setConversation(data)
 
@@ -41,8 +45,11 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
                 }, 10)
             } catch (error) {
                 console.error("Error fetching conversation:", error)
+                setConversation([])
             } finally {
-                setIsLoading(false)
+                setTimeout(() => {
+                    setIsLoading(false)
+                }, 5)
             }
         }
         if (contactedFriend?.id) {
@@ -68,8 +75,8 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
 
     return (
         <div>
-            {isLoading ? (
-                <div className="flex-1 flex items-center justify-center">
+            {isLoading || !contactedFriend ? (
+                <div className="flex-1 flex items-center justify-center w-full h-full dark:bg-black bg-white">
                     <Spinner />
                 </div>
             ) : (
