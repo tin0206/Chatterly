@@ -3,7 +3,11 @@ import { notFound } from "next/navigation"
 import { getFriendsList } from "@/actions/message.action"
 import MessagePageClient from "./MessagePageClient"
 
-async function MessagesPage({ params } : Readonly<{ params: { username: string } }>) {
+type MessagesPageProps = {
+  params: Promise<{ username: string }>
+}
+
+export default async function MessagesPage({ params } : MessagesPageProps) {
   const { username } = await params
   const user = await getProfileByUsername(username)
   if (!user) notFound()
@@ -18,5 +22,3 @@ async function MessagesPage({ params } : Readonly<{ params: { username: string }
     </>
   )
 }
-
-export default MessagesPage

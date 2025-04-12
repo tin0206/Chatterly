@@ -1,9 +1,10 @@
 import { getConversation } from '@/actions/message.action'
 import Link from "next/link"
-import { useEffect, useRef, useState } from 'react'
+import { use, useEffect, useRef, useState } from 'react'
 import { Spinner } from './Spinner'
 import { getProfileByUsername } from '@/actions/profile.action'
 import { Button } from './ui/button'
+import {socket} from '@/lib/socketClient'
 
 type User = Awaited<ReturnType<typeof getProfileByUsername>>
 
@@ -17,6 +18,33 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
     const [isLoading, setIsLoading] = useState(true)
     const messagesEndRef = useRef<HTMLDivElement>(null)
     const previousFriendIdRef = useRef<string | undefined>(undefined)
+
+    useEffect(() => {
+        socket.emit("join", userId)
+
+        const handleMessage = (data: {senderId: string, receiverId: string, message: string}) => {
+            const { senderId, receiverId, message } = data
+            if (senderId === contactedFriend?.id && receiverId === userId ||
+                senderId === userId && receiverId === contactedFriend?.id) {
+                setConversation((prev) => [
+                    ...prev,
+                    {
+                        sender: { id: senderId },
+                        receiver: { id: receiverId },
+                        content: message,
+                    }
+                ])
+                setTimeout(() => {
+                    scrollToBottom()
+                }, 10)        
+            }  
+        }
+        
+        socket.on("message", handleMessage)
+        return () => {
+            socket.off("message", handleMessage)
+        }
+    }, [userId, contactedFriend?.id])
 
     useEffect(() => {
         setTimeout(() => {

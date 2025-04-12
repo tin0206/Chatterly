@@ -14,10 +14,22 @@ app.prepare().then(() => {
     const httpServer = createServer(handle)
     const io = new Server(httpServer)
     io.on("connection", (socket) => {
-        console.log(`User connected: ${socket.id}`)
+        socket.on("join", (userId) => {
+            socket.join(userId)
+        })
 
-        socket.on("sendMessage", ({ senderId, receiverId, message }) => {
-            console.log(`Message from ${senderId} to ${receiverId}: ${message}`)
+        socket.on("message", ({ senderId, receiverId, message }) => {
+            io.to(receiverId).emit("message", {
+                senderId,
+                receiverId,
+                message,
+            })
+
+            io.to(senderId).emit("message", {
+                senderId,
+                receiverId,
+                message,
+            })
         })
     })
 

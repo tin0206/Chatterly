@@ -2,7 +2,11 @@ import { getProfileByUsername, getUserLikedPosts, getUserPosts, isFollowing } fr
 import { notFound } from "next/navigation"
 import ProfilePageClient from "./ProfilePageClient"
 
-async function ProfilePageServer({ params } : Readonly<{ params: { username: string } }>) {
+type ProfilePageProps = {
+    params: Promise<{ username: string }>
+}
+
+async function ProfilePageServer({ params } : ProfilePageProps) {
 
     const { username } = await params
     const user = await getProfileByUsername(username)

@@ -1,7 +1,11 @@
 import { getProfileByUsername } from "@/actions/profile.action"
 import ChatBodyClient from "./ChatBodyClient"
 
-async function ChatBodyServer({ params } : Readonly<{ params: { username: string, friendUsername: string } }>) {
+type ChatBodyServerProps = {
+  params: Promise<{ username: string; friendUsername: string }>
+}
+
+export default async function ChatBodyServer({ params } : ChatBodyServerProps) {
   const { username, friendUsername } = await params
   const user = await getProfileByUsername(username)
   const friend = await getProfileByUsername(friendUsername)
@@ -12,5 +16,3 @@ async function ChatBodyServer({ params } : Readonly<{ params: { username: string
     </div>
   )
 }
-
-export default ChatBodyServer
