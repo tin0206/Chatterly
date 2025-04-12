@@ -1,6 +1,7 @@
 import { getFriendsList } from "@/actions/message.action"
 import { getDbUserId, getDbUsername } from "@/actions/user.action"
 import FriendList from "@/components/FriendList"
+import styles from "@/app/messages/[username]/layout.module.css"
 
 export default async function MessagesLayout({ children }: { children: React.ReactNode }) {
     const userId = await getDbUserId()
@@ -10,8 +11,8 @@ export default async function MessagesLayout({ children }: { children: React.Rea
     return (
         <>
             <div className="flex h-[calc(100vh-8.5rem)]">
-                <div className="flex flex-col overflow-hidden w-2/5 border-r pl-2 h-full">
-                    <div className="font-bold h-[44px] pt-[14px] pb-[10px] px-[24px] text-base">
+                <div className="flex flex-col overflow-hidden sm:w-2/5 border-r pl-2 h-full">
+                    <div className={`flex font-bold pl-[5px] sm:pl-0 h-[44px] sm:pt-[14px] sm:pb-[10px] sm:px-[24px] sm:text-base`}>
                         Messages
                     </div>
                     <div className="overflow-hidden flex-1">
@@ -26,7 +27,7 @@ export default async function MessagesLayout({ children }: { children: React.Rea
                         </div>
                     </div>
                 </div>
-                <div className="w-3/5 flex flex-col h-full relative">
+                <div className="sm:w-3/5 w-full flex flex-col h-full relative">
                     {children}
                 </div>
             </div>

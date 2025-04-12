@@ -15,7 +15,7 @@ interface ChatBodyClientProps {
 function ChatBodyClient({ userId, contactedFriend }: ChatBodyClientProps) {
   return (
     <>
-      <div>
+      <div className='w-full'>
         <div className='h-[20px]'></div>
         <div className='flex-1 h-[calc(100vh-13.7rem)] overflow-y-auto'>
           <ChatBody userId={userId} contactedFriend={contactedFriend} />

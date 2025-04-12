@@ -40,7 +40,7 @@ function FriendList({username, friendList} : FriendListProps) {
                     }}
                 >
                     <div className="flex justify-center items-center w-[60px] h-[56px]">
-                        <img className="size-[48px] mr-[12px] rounded-full" src={friend.image ?? "/avatar.png"} alt="" />
+                        <img className="sm:size-[48px] sm:mr-[12px] rounded-full" src={friend.image ?? "/avatar.png"} alt="" />
                     </div>
                     <div className="flex flex-col justify-center">
                         <div className="hidden sm:block">

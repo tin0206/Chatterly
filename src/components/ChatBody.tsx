@@ -1,9 +1,12 @@
+"use client"
+
 import { getConversation } from '@/actions/message.action'
 import Link from "next/link"
-import { use, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Spinner } from './Spinner'
 import { getProfileByUsername } from '@/actions/profile.action'
 import { Button } from './ui/button'
+import { format } from "date-fns"
 import {socket} from '@/lib/socketClient'
 
 type User = Awaited<ReturnType<typeof getProfileByUsername>>
@@ -16,6 +19,7 @@ interface ChatBodyProps {
 const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
     const [conversation, setConversation] = useState<any[]>([])
     const [isLoading, setIsLoading] = useState(true)
+    const [showName, setShowName] = useState(false)
     const messagesEndRef = useRef<HTMLDivElement>(null)
     const previousFriendIdRef = useRef<string | undefined>(undefined)
 
@@ -129,20 +133,30 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
                     </div>
                     <div>
                         {conversation.map((message: any, index: number) => (
-                            <div key={index} className={`w-full flex ${checkDisplayImg(index) ? "mb-4" : "mb-2"}`}>
+                            <div key={index} className={`w-full flex ${checkDisplayImg(index) ? "mb-[32px]" : "mb-2"}`}>
                                 {message.sender.id !== userId && (
                                     <div className='flex items-end'>
                                         <div className='w-[50px] h-[28px] pl-[14px] pr-[8px]'>
                                             {checkDisplayImg(index) && (
-                                                <Link href={`/profile/${message.sender.username}`}>
-                                                    <div className='size-[28px]'>
-                                                        <img
-                                                            src={message.sender.image}
-                                                            className="rounded-full"
-                                                            alt=""
-                                                        />
-                                                    </div>
-                                                </Link>
+                                                <div>
+                                                    <Link href={`/profile/${message.sender.username}`}>
+                                                        <div className={`size-[28px]`}
+                                                            onMouseEnter={() => setShowName(true)}
+                                                            onMouseLeave={() => setShowName(false)}
+                                                        >
+                                                            <img
+                                                                src={message.sender.image}
+                                                                className="rounded-full"
+                                                                alt=""
+                                                            />
+                                                        </div>
+                                                    </Link> 
+                                                    {showName && (
+                                                        <div className={`mt-1 p-1 text-[13px] bg-gray-200 dark:bg-white text-black inline-block rounded-3xl -translate-x-1`}>
+                                                            {message.sender.username}
+                                                        </div>
+                                                    )}
+                                                </div>
                                             )}
                                         </div>
                                     </div>
