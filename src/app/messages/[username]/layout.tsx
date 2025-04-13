@@ -1,7 +1,6 @@
 import { getFriendsList } from "@/actions/message.action"
 import { getDbUserId, getDbUsername } from "@/actions/user.action"
 import FriendList from "@/components/FriendList"
-import styles from "@/app/messages/[username]/layout.module.css"
 
 export default async function MessagesLayout({ children }: { children: React.ReactNode }) {
     const userId = await getDbUserId()

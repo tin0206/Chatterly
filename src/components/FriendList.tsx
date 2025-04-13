@@ -2,8 +2,9 @@
 
 import { getFriendsList } from "@/actions/message.action"
 import { useCurrentChat } from "@/store/chatTarget"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { set } from "date-fns"
+import { usePathname, useRouter } from "next/navigation"
+import { useEffect } from "react"
 
 type FriendList = Awaited<ReturnType<typeof getFriendsList>>
 
@@ -13,11 +14,20 @@ interface FriendListProps {
 }
 
 function FriendList({username, friendList} : FriendListProps) {
+    const router = useRouter()
+    const pathname = usePathname()
     const currentChat = useCurrentChat((state: any) => state.currentChat)
     const setCurrentChat = useCurrentChat((state: any) => state.setCurrentChat)
-    const router = useRouter()
+    
+    useEffect(() => {
+        const friendUsername = pathname.split(`${username}`)[1]
+        if (friendUsername !== '/' && friendUsername !== '') {
+            const friendName = friendUsername.split('/')[1]
+            setCurrentChat(friendName)
+        }
+    }, [])
+
     const handleClick = (friendUsername: string, newCurrentChat: string) => {
-        console.log(currentChat)
         if (newCurrentChat === "") router.push(`/messages/${username}`)
         else router.push(`/messages/${username}/${friendUsername}`)
     }
