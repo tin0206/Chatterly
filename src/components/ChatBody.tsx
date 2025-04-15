@@ -210,7 +210,7 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
                     </div>
                     <div>
                         {conversation.map((message: any, index: number) => (
-                            <>
+                            <div key={index}>
                                 {displayTime(index) && (
                                     <div className='w-full px-[20px] py-[16px] flex justify-center items-center text-[13px] text-muted-foreground'>
                                         {times[index]}
@@ -274,7 +274,7 @@ const ChatBody = ({ userId, contactedFriend }: ChatBodyProps) => {
                                         </div>
                                     )}
                                 </div>
-                            </>
+                            </div>
                         ))}
                         <div ref={messagesEndRef} />
                     </div>
